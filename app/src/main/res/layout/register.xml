@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@color/colorPrimaryDark">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,72 +19,71 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="140dp"
                 android:layout_marginTop="70dp"
-                android:fontFamily="monospace"
                 android:text="Sign Up"
-                android:textColor="@android:color/white"
-                android:textSize="40dp"
+                android:textColor="#FFF"
+                android:textSize="50dp"
                 android:textStyle="italic" />
 
             <EditText
                 android:id="@+id/name"
                 android:layout_width="350dp"
-                android:textColor="#FFF"
-                android:layout_height="45dp"
+                android:textColor="#000"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="70dp"
-                android:background="@drawable/edit_text"
+                android:background="#fff"
                 android:drawableLeft="@drawable/person"
                 android:hint=" Your Name"
-                android:textColorHint="@android:color/white"
+                android:textColorHint="#000"
                 android:paddingLeft="10dp" />
 
             <EditText
                 android:id="@+id/phone"
                 android:layout_width="350dp"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/edit_text"
+                android:background="#fff"
                 android:drawableLeft="@drawable/phone"
                 android:hint=" Phone Number"
-                android:textColorHint="@android:color/white"
+                android:textColorHint="#000"
                 android:paddingLeft="10dp" />
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="350dp"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/edit_text"
+                android:background="#fff"
                 android:drawableLeft="@drawable/lock"
                 android:hint=" Password"
-                android:textColorHint="@android:color/white"
+                android:textColorHint="#000"
                 android:paddingLeft="10dp" />
 
             <EditText
                 android:id="@+id/email"
                 android:layout_width="350dp"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:textColor="#FFF"
+                android:textColor="#000"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/edit_text"
+                android:background="#fff"
                 android:drawableLeft="@drawable/mail"
                 android:hint=" Email Address"
-                android:textColorHint="@android:color/white"
+                android:textColorHint="#000"
                 android:paddingLeft="10dp" />
 
             <Button
                 android:id="@+id/signup"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="223dp"
-                android:background="@color/button"
+                android:layout_height="65dp"
+                android:layout_marginTop="184dp"
+                android:background="@color/yellow"
                 android:text=" Continue "
                 android:textAlignment="center"
                 android:textColor="@android:color/white"

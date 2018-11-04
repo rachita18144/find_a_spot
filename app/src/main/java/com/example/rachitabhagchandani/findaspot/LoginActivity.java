@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 loginButton = (Button) findViewById(R.id.loginButton);
                 signupButton = (Button) findViewById(R.id.registerButton);
-
+               final Intent intent1= new Intent(this,MapsActivity.class);
                 loginButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -38,14 +39,18 @@ public class LoginActivity extends AppCompatActivity {
                         String username = usernameEditText.getText().toString();
                         String password = passwordEditText.getText().toString();
                         boolean check = checkValidation(username, password);
+                        check=true;
                         if(!check){
                             Toast.makeText(getApplicationContext(), "Username/Password incorrect",
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
                         else{
-                            loginUser(username, password);
+                            //loginUser(username, password);
                             //proceed to login(check from firebase)
+
+                            startActivity(intent1);
+                            Log.d("MAP","hereeee");
                         }
                     }
                 });
@@ -109,5 +114,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 }

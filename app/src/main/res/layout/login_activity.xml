@@ -3,78 +3,83 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@color/colorPrimaryDark">
 
-    <ScrollView android:layout_height="match_parent"
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="140dp">
-            
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="140dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/diff_logo"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/diff_logo" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:text="Find A Spot"
-                android:textSize="20dp"
-                android:textStyle="bold"
                 android:layout_marginBottom="50dp"
                 android:gravity="center_horizontal"
-                />
+                android:text="Find A Spot"
+                android:textColor="#FFF"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded"
-                android:hint="Username"
-                android:id="@+id/userName"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:drawableLeft="@drawable/person"
+                android:hint="  Username"
                 android:padding="12dp"
                 android:textColor="#FFF"
-                android:textColorHint="#FFF"
-                android:layout_marginBottom="12dp" />
+                android:textColorHint="@android:color/black" />
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded"
-                android:hint="Password"
-                android:id="@+id/password"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/white"
+                android:drawableLeft="@drawable/lock"
+                android:hint="  Password"
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:textColor="#FFF"
-                android:textColorHint="#FFF"
-                android:layout_marginBottom="12dp"
-                />
+                android:textColorHint="@android:color/black" />
 
             <Button
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_button"
                 android:text="Login"
-                android:id="@+id/loginButton"
-                android:textColor="#FFF"
-                android:layout_marginBottom="12dp"
-                />
+                android:textColor="#FFF" />
+
             <Button
+                android:id="@+id/registerButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/new_rounded_button"
                 android:text="Register"
-                android:id="@+id/registerButton"
-                android:textColor="#00B55C"/>
+                android:textColor="#FFF" />
         </LinearLayout>
     </ScrollView>
 
