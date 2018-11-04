@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <fragment
+        android:id="@+id/place_autocomplete"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_centerHorizontal="true"/>
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
+        android:layout_marginTop="47dp"
         tools:context=".MapsActivity" />
 
 

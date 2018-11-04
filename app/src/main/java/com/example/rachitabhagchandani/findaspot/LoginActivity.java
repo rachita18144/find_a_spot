@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +23,9 @@ public class LoginActivity extends AppCompatActivity {
         EditText usernameEditText, passwordEditText;
         private FirebaseAuth mAuth;
 
-        protected void onCreate(Bundle savedInstanceState) {
+
+        protected void onCreate(Bundle savedInstanceState)
+        {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.login_activity);
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
