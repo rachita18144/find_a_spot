@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/view"
+            android:title="View Profile"
+            android:icon="@drawable/viewprofile"
+        />
+        <item
+            android:id="@+id/edit"
+            android:title="Edit Profile"
+            android:icon="@drawable/editprofile"/>
+        <item
+            android:id="@+id/current"
+            android:title="Current Booking"
+            android:icon="@drawable/pastbooking"/>
+        <item
+            android:id="@+id/past"
+            android:title="Past Bookings"
+            android:icon="@drawable/current"/>
+
+        <item
+            android:id="@+id/logout"
+            android:title="Logout"
+            android:icon="@drawable/logout"/>
+    </group>
+</menu>

@@ -11,9 +11,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,6 +30,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -40,18 +45,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String mode;
     LocationManager locationManager;
     Location location;
-    private static final long MIN_TIME = 400;
+    private static final long MIN_TIME = 6000;
     private static final float MIN_DISTANCE = 0;
     Button nearby;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 101;
     boolean network_enabled,gps_enabled;
     PlaceAutocompleteFragment placeAutoComplete;
+    LatLng current;
+    BitmapDescriptor icon;
+    private DrawerLayout mDrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         nearby= (Button) findViewById(R.id.nearby);
+        mDrawerLayout = findViewById(R.id.drawer);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem)
+                    {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        if(menuItem.getItemId()==R.id.past)
+                        {
+                          Intent intent = new Intent(getApplicationContext(),PastBookings.class);
+                            startActivity(intent);
+                        }
+
+                        return true;
+                    }
+        });
         placeAutoComplete = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete);
         placeAutoComplete.setHint("SEARCH");
         Log.d("saumya", String.valueOf(placeAutoComplete.getId()));
@@ -97,19 +123,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("saumya","map ready"+googleMap);
         mMap = googleMap;
-
+        icon = BitmapDescriptorFactory.fromResource(R.drawable.bluemarker);
         if (gps_enabled) {
             Log.d("saumya", "lm not null");
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("saumya", "permission granted");
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (location != null) {
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
                     Log.d("saumya", " gloc not null" + latitude + " " + longitude);
-                    LatLng current = new LatLng(latitude, longitude);
+                     current = new LatLng(latitude, longitude);
+                      Log.d("saumya","lat of curr is : "+latitude+" long current is : "+longitude);
                     mMap.addMarker(new MarkerOptions().position(current).title("Marker in curr loc"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
                     mMap.setMyLocationEnabled(true);
@@ -121,7 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             MarkerOptions mp = new MarkerOptions();
                             mp.position(new LatLng(location.getLatitude(), location.getLongitude()));
                             mp.title("my position");
-                            mMap.addMarker(mp);
+                           // mMap.addMarker(mp);
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16));
                             return false;
                         }
@@ -144,12 +172,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location)
     {
+        Log.d("saumya","onLocationChanged");
         mMap.clear();
         MarkerOptions mp = new MarkerOptions();
-        mp.position(new LatLng(location.getLatitude(), location.getLongitude()));
-        mp.title("my position");
+        current=new LatLng(location.getLatitude(), location.getLongitude());
+        mp.position(current);
+       // mp.title("my position");
         mMap.addMarker(mp);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16));
+      //  mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16));
     }
 
 
@@ -176,6 +206,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void getLatLongFromAddress(String address)
     {
+
+        Log.d("saumya","getting lat long of "+address);
         double lat= 0.0, lng= 0.0;
         Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
         try
@@ -183,11 +215,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             List<Address> addresses = geoCoder.getFromLocationName(address , 1);
             if (addresses.size() > 0)
             {
-              //  Log.d("saumya","we have got it");
+               Log.d("saumya","we have got the values");
+               mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(current).title("Marker in curr loc"));
+                Log.d("saumya","current marker added after clearing..");
              lat = addresses.get(0).getLatitude();
               lng= addresses.get(0).getLongitude();
                 for ( Address a : addresses )
-                { mMap.addMarker( new MarkerOptions().position( new LatLng( a.getLatitude(), a.getLongitude() ) ).title( "Hello" ).snippet( "Description about me!" ) );}
+                { mMap.addMarker( new MarkerOptions().icon(icon).position( new LatLng( a.getLatitude(), a.getLongitude() ) ) );}
                 Log.d("Latitude", ""+lat);
                 Log.d("Longitude", ""+lng);
             }
