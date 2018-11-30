@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    card_view:cardCornerRadius = "6dp"
+    android:layout_margin="10dp"
+    card_view:contentPadding="10dp"
+    card_view:cardBackgroundColor="#20243E"
+    card_view:cardElevation = "3dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location_name"
+            android:textSize="20dp"
+            android:textColor="#ffffff"/>
+         <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location_address"
+            android:textSize="15dp"
+            android:textColor="#ffffff"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="#ffffff"
+           android:textSize="15dp"
+           android:id="@+id/location_price"/>
+        <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+           android:id="@+id/capacity"/>
+    </LinearLayout>
+    <Button
+        android:layout_margin="5dp"
+        android:padding="8dp"
+        android:backgroundTint="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book"
+        android:layout_gravity="right"
+        android:id="@+id/book_button"/>
+
+</android.support.v7.widget.CardView>

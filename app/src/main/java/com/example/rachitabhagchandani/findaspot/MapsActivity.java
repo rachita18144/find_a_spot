@@ -95,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        final Intent intent = new Intent(this,NearbyPlaces.class);
+        final Intent intent = new Intent(this, DisplayParkingList.class);
         //Handling click on NearBy Button
         nearby.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,8 +130,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d("saumya", "lm not null");
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("saumya", "permission granted");
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 if (location != null) {
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();

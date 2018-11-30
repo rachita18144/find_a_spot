@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius = "3dp"
+    android:layout_margin="5dp"
+    card_view:contentPadding="10dp"
+    card_view:cardBackgroundColor="#20243E"
+    card_view:cardElevation = "3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+         <ImageView
+            android:layout_width="match_parent"
+             android:scaleType="fitXY"
+            android:layout_height="200dp"
+            android:src="@drawable/parking_image"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+     android:id="@+id/new_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius = "3dp"
+    android:layout_margin="5dp"
+    card_view:contentPadding="10dp"
+    card_view:cardBackgroundColor="#20243E"
+    card_view:cardElevation = "3dp">
+     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location_name"
+            android:textSize="20dp"
+            android:textColor="#ffffff"/>
+         <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="#ffffff"
+           android:textSize="15dp"
+           android:id="@+id/location_address"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="#ffffff"
+           android:textSize="15dp"
+           android:id="@+id/location_price"/>
+        <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+           android:id="@+id/capacity"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_new"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius = "3dp"
+    android:layout_margin="5dp"
+    card_view:contentPadding="10dp"
+    card_view:cardBackgroundColor="#EEEEEE"
+    card_view:cardElevation = "3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Current Status "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Available car parkings : 20/100 "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Available two-wheeler parkings : 40/100 "/>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:textSize="20dp"
+        android:id="@+id/proceed"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#FFD100"
+        android:text="Proceed and fill details"/>
+</LinearLayout>
