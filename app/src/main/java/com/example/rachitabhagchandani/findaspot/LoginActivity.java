@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
                         else{
-                            //loginUser(username, password);
+                           // loginUser(username, password);
                             //proceed to login(check from firebase)
 
                             startActivity(intent1);
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 passwordEditText.requestFocus();
                 check = false;
             }
-            /*if(usename == "" || password == "" || usename.length() <3 || password.length() <5){
+           /* if(usename == "" || password == "" || usename.length() <3 || password.length() <5){
                 check = false;
             }*/
             return check;
