@@ -33,12 +33,14 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -61,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase firebaseDatabase;
     ArrayList<ParkingLocations> list;
+    String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -68,6 +71,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         nearby= (Button) findViewById(R.id.nearby);
         mDrawerLayout = findViewById(R.id.drawer);
+        Intent ii=getIntent();
+         uid=ii.getStringExtra("uid");
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
@@ -82,6 +87,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             startActivity(intent);
                         }
 
+                        if(menuItem.getItemId()==R.id.edit)
+                        {
+                            Intent intent = new Intent(getApplicationContext(),EditProfile.class);
+                            intent.putExtra("uid",uid);
+                            startActivity(intent);
+                        }
                         return true;
                     }
         });
@@ -112,6 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // passing  list to recycler view.....
         //intent.putExtra("list_locations",list);
         //Handling click on NearBy Button
+
         nearby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -122,6 +134,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                   bundle.putSerializable("list_locations", list);
                   intent.putExtras(bundle);
                   startActivity(intent);
+                for(ParkingLocations p:list)
+                {
+                    Log.d("saumya","size of list ------ "+list.size());
+                    Log.d("saumya",p.getAddress());
+                }
+               intent.putExtra("pk1",list.get(0));
+                intent.putExtra("whole_list",list);
+               startActivity(intent);
             }
         });
         mode = Settings.Secure.getString(getApplication().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
