@@ -69,9 +69,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.l_name.setText(mDataset.get(position).name);
-        holder.l_price.setText("Rs." + String.valueOf(mDataset.get(position).price));
-        holder.l_capacity.setText("Capacity :" + String.valueOf(mDataset.get(position).capacity));
+        holder.l_name.setText(mDataset.get(position).address);
+        holder.l_price.setText("Rs." + String.valueOf(mDataset.get(position).charges_car));
+        holder.l_capacity.setText("Capacity :" + String.valueOf(mDataset.get(position).capacity_car));
         holder.l_address.setText(String.valueOf(mDataset.get(position).address));
     }
 

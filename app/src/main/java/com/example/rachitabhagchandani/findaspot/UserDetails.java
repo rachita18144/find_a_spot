@@ -76,9 +76,7 @@ public class UserDetails extends AppCompatActivity {
           bookingConfirmation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(UserDetails.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                bookParkingSlot();
             }
         });
 
@@ -122,5 +120,8 @@ public class UserDetails extends AppCompatActivity {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         selectedDate.setText(sdf.format(myCalendar.getTime()));
+    }
+    public void bookParkingSlot(){
+
     }
 }

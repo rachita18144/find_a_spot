@@ -1,32 +1,102 @@
 package com.example.rachitabhagchandani.findaspot;
-//Include lat long values
-public class ParkingLocations {
-    String name;
-    //Auto generated
-    int location_id;
-    String address;
-    int price;
-    int capacity;
 
-    ParkingLocations(String name, String address, int price, int capacity){
-        this.name = name;
-        this.address = address;
-        this.price = price;
-        this.capacity = capacity;
-    }
-    public String getName() {
-        return name;
-    }
+import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
+
+import java.io.Serializable;
+
+public class ParkingLocations implements Serializable
+{
+
+        String address;
+        String capacity_car;
+        String capacity_two_wheeler;
+        String charges_car, charges_two_wheeler;
+        String city;
+        String lat_value;
+        String long_value;
+
+
+        public ParkingLocations()
+        { }
 
     public String getAddress() {
         return address;
     }
 
-    public int getPrice() {
-        return price;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public String getCapacity_car() {
+        return capacity_car;
     }
+
+    public void setCapacity_car(String capacity_car) {
+        this.capacity_car = capacity_car;
+    }
+
+    public String getCapacity_two_wheeler() {
+        return capacity_two_wheeler;
+    }
+
+    public void setCapacity_two_wheeler(String capacity_two_wheeler) {
+        this.capacity_two_wheeler = capacity_two_wheeler;
+    }
+
+    public String getCharges_car() {
+        return charges_car;
+    }
+
+    public void setCharges_car(String charges_car) {
+        this.charges_car = charges_car;
+    }
+
+    public String getCharges_two_wheeler() {
+        return charges_two_wheeler;
+    }
+
+    public void setCharges_two_wheeler(String charges_two_wheeler) {
+        this.charges_two_wheeler = charges_two_wheeler;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getLat_value() {
+        return lat_value;
+    }
+
+    public void setLat_value(String lat_value) {
+        this.lat_value = lat_value;
+    }
+
+    public String getLong_value() {
+        return long_value;
+    }
+
+    public void setLong_value(String long_value) {
+        this.long_value = long_value;
+    }
+
+    public ParkingLocations(String address, String capacity_car, String capacity_two_wheeler, String charges_car, String charges_two_wheeler, String city, String lat_value, String long_value){
+
+        this.address = address;
+        this.capacity_car= capacity_car;
+        this.capacity_two_wheeler=capacity_two_wheeler;
+        this.charges_car=charges_car;
+        this.charges_two_wheeler=charges_two_wheeler;
+        this.city=city;
+        this.lat_value=lat_value;
+        this.long_value=long_value;
+        Log.d("saumya","value of address set to "+this.address);
+    }
+
 }
+

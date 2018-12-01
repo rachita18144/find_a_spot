@@ -42,14 +42,13 @@ public class LoginActivity extends AppCompatActivity {
                         String username = usernameEditText.getText().toString();
                         String password = passwordEditText.getText().toString();
                         boolean check = checkValidation(username, password);
-                        check=true;
                         if(!check){
                             Toast.makeText(getApplicationContext(), "Username/Password incorrect",
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
                         else{
-                            //loginUser(username, password);
+                            loginUser(username, password);
                             //proceed to login(check from firebase)
 
                             startActivity(intent1);
@@ -94,9 +93,9 @@ public class LoginActivity extends AppCompatActivity {
                 passwordEditText.requestFocus();
                 check = false;
             }
-            /*if(usename == "" || password == "" || usename.length() <3 || password.length() <5){
+            if(usename == "" || password == "" || usename.length() <3 || password.length() <5){
                 check = false;
-            }*/
+            }
             return check;
         }
 
@@ -110,6 +109,8 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
+                            Log.d("username",user.getDisplayName());
+                            Log.d("userid",user.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",

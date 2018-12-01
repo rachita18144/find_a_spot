@@ -54,6 +54,8 @@
         </activity>
         <activity android:name=".DisplayParkingList">
         </activity>
+        <activity android:name=".PastBookingActivity">
+        </activity>
     </application>
 
 </manifest>
