@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 loginButton = (Button) findViewById(R.id.loginButton);
                 signupButton = (Button) findViewById(R.id.registerButton);
-               final Intent intent1= new Intent(this,MapsActivity.class);
+               //final Intent intent1= new Intent(this,MapsActivity.class);
                 loginButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                             loginUser(username, password);
                             //proceed to login(check from firebase)
 
-                            startActivity(intent1);
+                            //startActivity(intent1);
                             Log.d("MAP","hereeee");
                         }
                     }
@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     void loginUser(String username, String password){
+            final boolean check;
         mAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -109,8 +110,9 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-                            Log.d("username",user.getDisplayName());
                             Log.d("userid",user.getUid());
+                            final Intent intent1= new Intent(getApplicationContext(),MapsActivity.class);
+                            startActivity(intent1);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
