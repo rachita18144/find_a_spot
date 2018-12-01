@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 loginButton = (Button) findViewById(R.id.loginButton);
                 signupButton = (Button) findViewById(R.id.registerButton);
-               final Intent intent1= new Intent(this,MapsActivity.class);
                 loginButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -42,17 +41,15 @@ public class LoginActivity extends AppCompatActivity {
                         String username = usernameEditText.getText().toString();
                         String password = passwordEditText.getText().toString();
                         boolean check = checkValidation(username, password);
-                        check=true;
+                       // check=true;
                         if(!check){
                             Toast.makeText(getApplicationContext(), "Username/Password incorrect",
                                     Toast.LENGTH_LONG).show();
                             return;
                         }
                         else{
-                           // loginUser(username, password);
+                            loginUser(username, password);
                             //proceed to login(check from firebase)
-
-                            startActivity(intent1);
                             Log.d("MAP","hereeee");
                         }
                     }
@@ -69,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         boolean checkValidation(String usename, String password){
-
             boolean check = true;
             if(usename.isEmpty()){
                 usernameEditText.setError("Username is required");
@@ -94,9 +90,9 @@ public class LoginActivity extends AppCompatActivity {
                 passwordEditText.requestFocus();
                 check = false;
             }
-           /* if(usename == "" || password == "" || usename.length() <3 || password.length() <5){
+            if(usename == "" || password == "" || usename.length() <3 || password.length() <5){
                 check = false;
-            }*/
+            }
             return check;
         }
 
@@ -106,10 +102,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            final Intent intent1= new Intent(LoginActivity.this,MapsActivity.class);
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
+                            Log.d("saumya",user.getUid()+" "+user.getDisplayName());
+                            intent1.putExtra("uid",user.getUid());
+                            startActivity(intent1);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -117,6 +116,5 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 }

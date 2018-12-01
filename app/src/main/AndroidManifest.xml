@@ -49,7 +49,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".NearbyPlaces" />
-        <activity android:name=".PastBookings"></activity>
+        <activity android:name=".PastBookings" />
+        <activity android:name=".EditProfile"></activity>
     </application>
 
 </manifest>
