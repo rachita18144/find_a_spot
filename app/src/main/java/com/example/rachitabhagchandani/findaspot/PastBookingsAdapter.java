@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 public class PastBookingsAdapter extends RecyclerView.Adapter<PastBookingsAdapter.ViewHolder> {
 
-    ArrayList<PastBookings> mDataset = new ArrayList<PastBookings>();
+    ArrayList<BookSlotFirebase> mDataset = new ArrayList<BookSlotFirebase>();
     Context mContext;
 
-    public PastBookingsAdapter(ArrayList<PastBookings> dataSet, Context mcontext) {
+    public PastBookingsAdapter(ArrayList<BookSlotFirebase> dataSet, Context mcontext) {
         this.mDataset = dataSet;
         this.mContext = mcontext;
     }
@@ -55,14 +55,14 @@ public class PastBookingsAdapter extends RecyclerView.Adapter<PastBookingsAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d("abcd",mDataset.get(position).getVehicle_number());
         holder.vehicle_id.setText(mDataset.get(position).getVehicle_number());
-        holder.location.setText(mDataset.get(position).getLocation());
+        //holder.location.setText(mDataset.get(position).getLocation());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String datestr = formatter.format(mDataset.get(position).getBooking_date());
+        //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        //String datestr = formatter.format(mDataset.get(position).getBooking_date());
 
-        holder.date.setText(datestr);
-        holder.entry_time.setText(mDataset.get(position).getArrival_time().toString());
-        holder.exit_time.setText(mDataset.get(position).getLeaving_time().toString());
+        holder.date.setText(mDataset.get(position).getBooking_date());
+        holder.entry_time.setText(mDataset.get(position).getArrival_time());
+        holder.exit_time.setText(mDataset.get(position).getLeaving_time());
         holder.amount_paid.setText(Float.toString(mDataset.get(position).getAmount_paid()));
     }
 
