@@ -4,8 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,6 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,8 +36,6 @@ public class UserDetails extends AppCompatActivity {
 
     //create a new object of type past bookings and save the object in db
     BookSlotFirebase booking = new BookSlotFirebase();
-    //booking.user_id = getIntent;
-
 
     final Calendar myCalendar = Calendar.getInstance();
     Button bookingConfirmation;
@@ -40,6 +44,8 @@ public class UserDetails extends AppCompatActivity {
         setContentView(R.layout.user_details);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        booking.user_id = getUserIdFromExternalStorage();
+       // Log.d("USER_ID",booking.user_id);
         TextView l_name;
         if (bundle != null) {
             l_name = (TextView) findViewById(R.id.booking_location);
@@ -155,7 +161,7 @@ public class UserDetails extends AppCompatActivity {
     public void bookParkingSlot(){
         vehicleNumber = (EditText) findViewById(R.id.vehcile_number);
         booking.vehicle_number = vehicleNumber.getText().toString();
-            FirebaseDatabase.getInstance().getReference("booking_details").child("123").setValue(booking)
+            FirebaseDatabase.getInstance().getReference("booking_details").child(booking.user_id).setValue(booking)
                                     .addOnCompleteListener(new OnCompleteListener<Void>(){
                                        public void onComplete(@NonNull Task<Void> task){
                                            if(task.isSuccessful()){
@@ -168,4 +174,27 @@ public class UserDetails extends AppCompatActivity {
                                        }
                                     });
     }
+
+    public String getUserIdFromExternalStorage() {
+        String line = "";
+        final File file = new File(Environment.getExternalStorageDirectory()
+                .getAbsolutePath(), "uid.txt");
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            while ((line = br.readLine()) != null) {
+
+                Log.d("USER_ID", line);
+                text.append(line);
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
+    }
 }
+

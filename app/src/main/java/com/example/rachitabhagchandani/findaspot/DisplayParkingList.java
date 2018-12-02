@@ -2,11 +2,16 @@ package com.example.rachitabhagchandani.findaspot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DisplayParkingList extends AppCompatActivity{
@@ -23,10 +28,9 @@ public class DisplayParkingList extends AppCompatActivity{
         if(bundle!=null) {
             parkingLocations = (ArrayList<ParkingLocations>) bundle.getSerializable("list_locations");
         }
-
-        //parkingLocations = (ArrayList<ParkingLocations>) i.getSerializableExtra("list_locations");
-       // Log.d("abcd",parkingLocations.get(0).getAddress());
-        Log.d("size",parkingLocations.size()+"");
+        String uid = i.getStringExtra("uid");
+        Log.d("size",uid);
+        saveUidInExternalStorage(uid);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -43,4 +47,20 @@ public class DisplayParkingList extends AppCompatActivity{
         intent.putExtra("address", selectedLocation.getAddress());
         startActivity(intent);
     }
+   public void saveUidInExternalStorage(String uid){
+       try {
+           File file = new File(Environment.getExternalStorageDirectory(), "uid.txt");
+           if(file.exists()){
+               file.delete();
+           }
+           file.createNewFile();
+           FileWriter writer = new FileWriter(file);
+           writer.append(uid);
+           writer.flush();
+           writer.close();
+           Toast.makeText(DisplayParkingList.this, "Saved", Toast.LENGTH_SHORT).show();
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+   }
 }

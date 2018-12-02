@@ -84,7 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if(menuItem.getItemId()==R.id.past)
                         {
                           Intent intent = new Intent(getApplicationContext(),PastBookingActivity.class);
-                            startActivity(intent);
+                          intent.putExtra("uid",uid);
+                          startActivity(intent);
                         }
 
                         if(menuItem.getItemId()==R.id.edit)
@@ -115,15 +116,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         final Intent intent = new Intent(this, DisplayParkingList.class);
 
-        //Bundle bundle = new Bundle();
-        //bundle.putSerializable("list_locations", list);
-        //intent.putExtras(bundle);
-
-
-        // passing  list to recycler view.....
-        //intent.putExtra("list_locations",list);
-        //Handling click on NearBy Button
-
         nearby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -132,6 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                   final Intent intent = new Intent(getApplicationContext(), DisplayParkingList.class);
                   Bundle bundle = new Bundle();
                   bundle.putSerializable("list_locations", list);
+                  bundle.putString("uid", uid);
                   intent.putExtras(bundle);
                   startActivity(intent);
                 for(ParkingLocations p:list)
