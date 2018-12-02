@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -202,10 +203,10 @@ public class UserDetails extends AppCompatActivity {
         booking.booking_date = sdf.format(myCalendar.getTime());
     }
 
-    public void bookParkingSlot(){
+    /*public void bookParkingSlot(){
         vehicleNumber = (EditText) findViewById(R.id.vehcile_number);
         booking.vehicle_number = vehicleNumber.getText().toString();
-            FirebaseDatabase.getInstance().getReference("booking_details").child("abc").setValue(booking)
+            FirebaseDatabase.getInstance().getReference("booking_details").child(booking.user_id).setValue(booking)
                                     .addOnCompleteListener(new OnCompleteListener<Void>(){
                                        public void onComplete(@NonNull Task<Void> task){
                                            if(task.isSuccessful()){
@@ -217,7 +218,28 @@ public class UserDetails extends AppCompatActivity {
                                            }
                                        }
                                     });
+    }*/
+
+    public void bookParkingSlot(){
+        vehicleNumber = (EditText) findViewById(R.id.vehcile_number);
+        booking.vehicle_number = vehicleNumber.getText().toString();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("booking_details");
+        DatabaseReference postsRef = ref.child(booking.user_id);
+        DatabaseReference newPostRef = postsRef.push();
+        newPostRef.setValue(booking).addOnCompleteListener(new OnCompleteListener<Void>(){
+                                       public void onComplete(@NonNull Task<Void> task){
+                                           if(task.isSuccessful()){
+                                               Toast.makeText(UserDetails.this, "Booking Successfull",
+                                                       Toast.LENGTH_SHORT).show();
+                                           }else{
+                                               Toast.makeText(UserDetails.this, "Booking Failed",
+                                                       Toast.LENGTH_SHORT).show();
+                                           }
+                                       }
+                                    });
     }
+
     public void getUserDataFirebase(String uid) {
         FirebaseDatabase.getInstance().getReference("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override

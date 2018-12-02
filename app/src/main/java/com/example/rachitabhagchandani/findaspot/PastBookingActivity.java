@@ -26,6 +26,7 @@ public class PastBookingActivity extends AppCompatActivity {
 
      RecyclerView recyclerView;
      private FirebaseDatabase firebaseDatabase;
+     PastBookingsAdapter adapter = null;
      private ArrayList<BookSlotFirebase> pastBookings;
 
     @Override
@@ -38,10 +39,7 @@ public class PastBookingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         final String uid = getUserIdFromExternalStorage();
         getBookingDetailsFromUid(uid);
-        PastBookingsAdapter adapter = new PastBookingsAdapter(pastBookings, this);
-        recyclerView.setAdapter(adapter);
     }
-
 
      public String getUserIdFromExternalStorage() {
         String line = "";
@@ -66,8 +64,6 @@ public class PastBookingActivity extends AppCompatActivity {
     //get booking details of user corresponding where uid = uid of user
 
     public void getBookingDetailsFromUid(String uid){
-
-        Log.d("ye user id hai", uid);
         final String userId = uid;
         pastBookings = new ArrayList<BookSlotFirebase>();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -80,22 +76,24 @@ public class PastBookingActivity extends AppCompatActivity {
                 Log.d("booking","count : "+dataSnapshot.getChildrenCount());
                 for(DataSnapshot ds:dataSnapshot.getChildren())
                 {
-                    Log.d("db wali", ds.child("user_id").getValue().toString());
-                    if(ds.child("user_id").getValue().toString().equals(userId)){
-                        Log.d("imuser", ds.child("user_id").getValue().toString());
-                        Log.d("imuser", ds.child("booking_date").getValue().toString());
-                        BookSlotFirebase pb = dataSnapshot.getValue(BookSlotFirebase.class);
-                        pb.setBooking_date(ds.child("booking_date").getValue().toString());
-                        pb.setArrival_time(ds.child("arrival_time").getValue().toString());
-                        pb.setLeaving_time(ds.child("leaving_time").getValue().toString());
-                        pb.setVehicle_number(ds.child("vehicle_number").getValue().toString());
-                        pb.setUser_id(ds.child("user_id").getValue().toString());
-                        //pb.setLocation(ds.child("location").getValue().toString());
-                        pb.setAmount_paid(Float.parseFloat(ds.child("amount_paid").getValue().toString()));
-                        pastBookings.add(pb);
+                    if(ds.getKey().equals(userId)){
+                        for(DataSnapshot dsnew : ds.getChildren()) {
+                            BookSlotFirebase pb = dataSnapshot.getValue(BookSlotFirebase.class);
+                            pb.setBooking_date(dsnew.child("booking_date").getValue().toString());
+                            pb.setArrival_time(dsnew.child("arrival_time").getValue().toString());
+                            pb.setLeaving_time(dsnew.child("leaving_time").getValue().toString());
+                            pb.setVehicle_number(dsnew.child("vehicle_number").getValue().toString());
+                            pb.setUser_id(dsnew.child("user_id").getValue().toString());
+                            //pb.setLocation(ds.child("location").getValue().toString());
+                            pb.setAmount_paid(Float.parseFloat(dsnew.child("amount_paid").getValue().toString()));
+                            pastBookings.add(pb);
+                        }
                     }
                 }
+                adapter = new PastBookingsAdapter(pastBookings, getApplicationContext());
+                recyclerView.setAdapter(adapter);
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
