@@ -209,8 +209,12 @@ public class UserDetails extends AppCompatActivity {
     public void bookParkingSlot() {
         vehicleNumber = (EditText) findViewById(R.id.vehcile_number);
         booking.vehicle_number = vehicleNumber.getText().toString();
+<<<<<<< HEAD
         Log.d("saumya", FirebaseDatabase.getInstance().getReference().getPath() + " is the path------");
             FirebaseDatabase.getInstance().getReference("booking_details").child(booking.user_id).setValue(booking)
+=======
+            FirebaseDatabase.getInstance().getReference("booking_details").child("abc").setValue(booking)
+>>>>>>> f868ab0a4cf12319dc01e902f57c01ed6a5de37a
                                     .addOnCompleteListener(new OnCompleteListener<Void>(){
                                        public void onComplete(@NonNull Task<Void> task){
                                            if(task.isSuccessful()){
