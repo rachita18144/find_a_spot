@@ -18,7 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class DisplayParkingList extends AppCompatActivity{
     TextView nav_name ;
     TextView nav_phone;
     private DrawerLayout mDrawerLayout;
-    String uid="KhlwBCB3gabrcsh2p8Xt175Rp9I3";
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,8 @@ public class DisplayParkingList extends AppCompatActivity{
         View header=navigationView.getHeaderView(0);
         nav_name = (TextView)header.findViewById(R.id.nav_name);
         nav_phone = (TextView)header.findViewById(R.id.nav_phone);
-        getUserDataFirebase("KhlwBCB3gabrcsh2p8Xt175Rp9I3");
+        uid=getUserIdFromExternalStorage();
+        getUserDataFirebase(uid);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
             @Override
@@ -130,5 +134,27 @@ public class DisplayParkingList extends AppCompatActivity{
            e.printStackTrace();
        }
    }
+    public String getUserIdFromExternalStorage() {
+        String line = "";
+        final File file = new File(Environment.getExternalStorageDirectory()
+                .getAbsolutePath(), "uid.txt");
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            while ((line = br.readLine()) != null) {
+
+                Log.d("USER_ID", line);
+                text.append(line);
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
+
+    }
 
 }
