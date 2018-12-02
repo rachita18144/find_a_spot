@@ -5,7 +5,10 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,7 +19,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
 import java.text.DateFormat;
@@ -27,17 +33,53 @@ import java.util.Locale;
 public class UserDetails extends AppCompatActivity {
     TextView selectDate, selectedDate, selectTime, selectedTime, selectedLeavngTime, selectleavingTime;
     EditText vehicleNumber;
-
+    TextView nav_name ;
+    TextView nav_phone;
+    private DrawerLayout mDrawerLayout;
+    String uid="KhlwBCB3gabrcsh2p8Xt175Rp9I3";
     //create a new object of type past bookings and save the object in db
     BookSlotFirebase booking = new BookSlotFirebase();
     //booking.user_id = getIntent;
-
 
     final Calendar myCalendar = Calendar.getInstance();
     Button bookingConfirmation;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_details);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        mDrawerLayout = findViewById(R.id.drawer);
+        nav_name = (TextView)header.findViewById(R.id.nav_name);
+        nav_phone = (TextView)header.findViewById(R.id.nav_phone);
+        getUserDataFirebase("KhlwBCB3gabrcsh2p8Xt175Rp9I3");
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem)
+            {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                if(menuItem.getItemId()==R.id.past)
+                {
+                    Intent intent = new Intent(getApplicationContext(),PastBookingActivity.class);
+                    startActivity(intent);
+                }
+
+                if(menuItem.getItemId()==R.id.edit)
+                {
+                    Intent intent = new Intent(getApplicationContext(),EditProfile.class);
+                    intent.putExtra("uid",uid);
+                    startActivity(intent);
+                }
+                if(menuItem.getItemId()==R.id.logout)
+                {
+                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                    // intent.putExtra("uid",uid);
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         TextView l_name;
@@ -167,5 +209,20 @@ public class UserDetails extends AppCompatActivity {
                                            }
                                        }
                                     });
+    }
+    public void getUserDataFirebase(String uid)
+    {
+        FirebaseDatabase.getInstance().getReference("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nav_name.setText(dataSnapshot.child("name").getValue().toString());
+                nav_phone.setText(dataSnapshot.child("phone").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

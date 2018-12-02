@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -64,6 +65,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FirebaseDatabase firebaseDatabase;
     ArrayList<ParkingLocations> list;
     String uid;
+    TextView nav_name ;
+    TextView nav_phone;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -74,6 +77,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent ii=getIntent();
          uid=ii.getStringExtra("uid");
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+
+        nav_name = (TextView)header.findViewById(R.id.nav_name);
+        nav_phone = (TextView)header.findViewById(R.id.nav_phone);
+        getUserDataFirebase(uid);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
                     @Override
@@ -91,6 +99,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {
                             Intent intent = new Intent(getApplicationContext(),EditProfile.class);
                             intent.putExtra("uid",uid);
+                            startActivity(intent);
+                        }
+                        if(menuItem.getItemId()==R.id.logout)
+                        {
+                            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                           // intent.putExtra("uid",uid);
                             startActivity(intent);
                         }
                         return true;
@@ -114,15 +128,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         final Intent intent = new Intent(this, DisplayParkingList.class);
-
-        //Bundle bundle = new Bundle();
-        //bundle.putSerializable("list_locations", list);
-        //intent.putExtras(bundle);
-
-
-        // passing  list to recycler view.....
-        //intent.putExtra("list_locations",list);
-        //Handling click on NearBy Button
 
         nearby.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,5 +347,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+    public void getUserDataFirebase(String uid)
+    {
+        FirebaseDatabase.getInstance().getReference("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               nav_name.setText(dataSnapshot.child("name").getValue().toString());
+                nav_phone.setText(dataSnapshot.child("phone").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
 

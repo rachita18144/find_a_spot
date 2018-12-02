@@ -5,9 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,51 +25,59 @@ import java.util.Iterator;
 public class EditProfile extends AppCompatActivity {
     String uid;
     User u2;
-    EditText name,email,phone;
+    EditText name, email, phone, password, vehicle_no;
     TextView topname;
+    Button editButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        name=(EditText)findViewById(R.id.name);
-        topname=(TextView)findViewById(R.id.nametop);
-        phone=(EditText)findViewById(R.id.contact);
-        Intent i=getIntent();
-        uid=i.getStringExtra("uid");
+        name = (EditText) findViewById(R.id.name);
+        topname = (TextView) findViewById(R.id.nametop);
+        phone = (EditText) findViewById(R.id.contact);
+        editButton = (Button) findViewById(R.id.editprofilebutton);
+        password = (EditText) findViewById(R.id.pass);
+        vehicle_no = (EditText) findViewById(R.id.vehiclelist);
+        Intent i = getIntent();
+        uid = i.getStringExtra("uid");
         getUserDetailsFirebase();
-       // Log.d("saumya",u2.name+" "+u2.email_id+" "+u2.phone);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uname = name.getText().toString();
+                String pwd = password.getText().toString();
+                String contact = phone.getText().toString();
+                String vehicle = vehicle_no.getText().toString();
+                saveToDB(uname, pwd, contact, vehicle,contact);
+
+            }
+        });
     }
-    public void getUserDetailsFirebase()
-    {
-       FirebaseDatabase firebaseDatabase= FirebaseDatabase.getInstance();
-        DatabaseReference db_ref=firebaseDatabase.getReference("users").child(uid);
-        Log.d("saumya",db_ref.toString());
-        Log.d("saumya","path is "+db_ref.getPath());
+
+    public void getUserDetailsFirebase() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference db_ref = firebaseDatabase.getReference("users").child(uid);
+        Log.d("saumya", db_ref.toString());
+        Log.d("saumya", "path is " + db_ref.getPath());
         db_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 u2= new User();
-              for(DataSnapshot ds: dataSnapshot.getChildren())
-              {
+                u2 = new User();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                   /*Log.d("saumya","iterating over "+ds.getKey());
                   Log.d("saumya","its value is "+ds.getValue());*/
-                  if(ds.getKey().equals("email_id"))
-                  {
-                      u2.email_id=ds.getValue().toString();
-                  }
-                  else if(ds.getKey().equals("phone"))
-                  {
-                      u2.phone=ds.getValue().toString();
-                      phone.setText(u2.phone);
-                  }
-                  else
-                  {
-                      u2.name=ds.getValue().toString();
-                      name.setText(u2.name);
-                      topname.setText(u2.name);
-                  }
-              }
-
+                    if (ds.getKey().equals("email_id")) {
+                        u2.email_id = ds.getValue().toString();
+                    } else if (ds.getKey().equals("phone")) {
+                        u2.phone = ds.getValue().toString();
+                        phone.setText(u2.phone);
+                    } else {
+                        u2.name = ds.getValue().toString();
+                        name.setText(u2.name);
+                        topname.setText(u2.name);
+                    }
+                }
             }
 
             @Override
@@ -72,6 +85,13 @@ public class EditProfile extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void saveToDB(String name, String email, String pass, String vehicle_no,String contact) {
+     FirebaseDatabase.getInstance().getReference("users").child(uid).child("name").setValue(name);
+     FirebaseDatabase.getInstance().getReference("users").child(uid).child("phone").setValue(contact);
+     topname.setText(name);
+     Toast.makeText(getApplicationContext(),"Data updated",Toast.LENGTH_LONG).show();
     }
 }
 

@@ -30,7 +30,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="25dp"
-            android:text="Sumu"
+            android:text=""
             android:textColor="#FFF"
             android:textSize="20dp" />
     </RelativeLayout>
@@ -69,7 +69,7 @@
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
-                    android:text="lalala"
+                    android:text=""
                     android:textSize="15dp" />
             </LinearLayout>
             <LinearLayout
@@ -89,7 +89,7 @@
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
-                    android:text="9999999"
+                    android:text=""
                     android:textSize="15dp" />
             </LinearLayout>
             <LinearLayout
