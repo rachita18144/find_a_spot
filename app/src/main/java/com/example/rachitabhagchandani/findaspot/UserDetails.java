@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,9 +22,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedReader;
@@ -42,7 +46,7 @@ public class UserDetails extends AppCompatActivity {
     TextView nav_name ;
     TextView nav_phone;
     private DrawerLayout mDrawerLayout;
-    String uid="KhlwBCB3gabrcsh2p8Xt175Rp9I3";
+    String uid=getUserIdFromExternalStorage();
     //create a new object of type past bookings and save the object in db
     BookSlotFirebase booking = new BookSlotFirebase();
     //booking.user_id = getIntent;
@@ -202,9 +206,10 @@ public class UserDetails extends AppCompatActivity {
         booking.booking_date = sdf.format(myCalendar.getTime());
     }
 
-    public void bookParkingSlot(){
+    public void bookParkingSlot() {
         vehicleNumber = (EditText) findViewById(R.id.vehcile_number);
         booking.vehicle_number = vehicleNumber.getText().toString();
+        Log.d("saumya", FirebaseDatabase.getInstance().getReference().getPath() + " is the path------");
             FirebaseDatabase.getInstance().getReference("booking_details").child(booking.user_id).setValue(booking)
                                     .addOnCompleteListener(new OnCompleteListener<Void>(){
                                        public void onComplete(@NonNull Task<Void> task){
@@ -217,7 +222,9 @@ public class UserDetails extends AppCompatActivity {
                                            }
                                        }
                                     });
+
     }
+
     public void getUserDataFirebase(String uid) {
         FirebaseDatabase.getInstance().getReference("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override

@@ -49,15 +49,12 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ParkingSlotInformation">
-        </activity>
-        <activity android:name=".UserDetails">
-        </activity>
-        <activity android:name=".DisplayParkingList">
-        </activity>
-        <activity android:name=".PastBookingActivity">
-        </activity>
-        <activity android:name=".EditProfile"></activity>
+        <activity android:name=".ParkingSlotInformation"></activity>
+        <activity android:name=".UserDetails"></activity>
+        <activity android:name=".DisplayParkingList"></activity>
+        <activity android:name=".PastBookingActivity"></activity>
+        <activity android:name=".EditProfile" />
+        <activity android:name=".CurrentStatus"></activity>
     </application>
 
 </manifest>

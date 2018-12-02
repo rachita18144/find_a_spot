@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     BitmapDescriptor icon;
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase firebaseDatabase;
+    ProgressBar spinner;
     ArrayList<ParkingLocations> list;
     String uid;
     TextView nav_name ;
@@ -74,6 +76,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         nearby= (Button) findViewById(R.id.nearby);
         mDrawerLayout = findViewById(R.id.drawer);
+        spinner = (ProgressBar)findViewById(R.id.progressbar);
+        spinner.setVisibility(View.VISIBLE);
         Intent ii=getIntent();
          uid=ii.getStringExtra("uid");
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -283,6 +287,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     public void placeDBMarkers()
     {
+
         if(list.size()!=0)
         {
             Log.d("saumya","getting list items");
@@ -292,6 +297,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().icon(icon).position(cc).title("Markers set"));
             }
         }
+
     }
 
     @Override
@@ -348,6 +354,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
              Log.d("saumya",databaseError.getDetails());
             }
         });
+       spinner.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.GONE);
+        Log.d("saumya","-------------------");
     }
     public void getUserDataFirebase(String uid)
     {

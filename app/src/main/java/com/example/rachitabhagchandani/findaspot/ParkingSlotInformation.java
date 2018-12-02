@@ -2,10 +2,12 @@ package com.example.rachitabhagchandani.findaspot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ParkingSlotInformation extends AppCompatActivity {
@@ -25,7 +31,7 @@ public class ParkingSlotInformation extends AppCompatActivity {
     TextView nav_name ;
     TextView nav_phone;
     private DrawerLayout mDrawerLayout;
-    String uid="KhlwBCB3gabrcsh2p8Xt175Rp9I3";
+    String uid=getUserIdFromExternalStorage();
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -35,7 +41,7 @@ public class ParkingSlotInformation extends AppCompatActivity {
             View header=navigationView.getHeaderView(0);
             nav_name = (TextView)header.findViewById(R.id.nav_name);
             nav_phone = (TextView)header.findViewById(R.id.nav_phone);
-            getUserDataFirebase("KhlwBCB3gabrcsh2p8Xt175Rp9I3");
+            getUserDataFirebase(uid);
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
             {
                 @Override
@@ -104,5 +110,27 @@ public class ParkingSlotInformation extends AppCompatActivity {
 
             }
         });
+    }
+    public String getUserIdFromExternalStorage() {
+        String line = "";
+        final File file = new File(Environment.getExternalStorageDirectory()
+                .getAbsolutePath(), "uid.txt");
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            while ((line = br.readLine()) != null) {
+
+                Log.d("USER_ID", line);
+                text.append(line);
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text.toString();
+
     }
 }
