@@ -38,9 +38,6 @@ public class PastBookingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         final String uid = getUserIdFromExternalStorage();
         getBookingDetailsFromUid(uid);
-        for(int i=0; i<10000000; i++){
-
-        }
         PastBookingsAdapter adapter = new PastBookingsAdapter(pastBookings, this);
         recyclerView.setAdapter(adapter);
     }
