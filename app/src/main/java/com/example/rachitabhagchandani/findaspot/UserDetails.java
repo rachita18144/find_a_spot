@@ -46,7 +46,7 @@ public class UserDetails extends AppCompatActivity {
     TextView nav_name ;
     TextView nav_phone;
     private DrawerLayout mDrawerLayout;
-    String uid=getUserIdFromExternalStorage();
+    String uid;
     //create a new object of type past bookings and save the object in db
     BookSlotFirebase booking = new BookSlotFirebase();
     //booking.user_id = getIntent;
@@ -56,12 +56,13 @@ public class UserDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_details);
+        uid=getUserIdFromExternalStorage();
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
         mDrawerLayout = findViewById(R.id.drawer);
         nav_name = (TextView)header.findViewById(R.id.nav_name);
         nav_phone = (TextView)header.findViewById(R.id.nav_phone);
-        getUserDataFirebase("KhlwBCB3gabrcsh2p8Xt175Rp9I3");
+        getUserDataFirebase(uid);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
             @Override
