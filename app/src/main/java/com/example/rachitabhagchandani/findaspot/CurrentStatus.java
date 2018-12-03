@@ -58,6 +58,7 @@ String charge;
 
     public void getDataFromDB()
     {
+        Log.d("saumya","Hi my uid is "+uid);
         FirebaseDatabase.getInstance().getReference("booking_details").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

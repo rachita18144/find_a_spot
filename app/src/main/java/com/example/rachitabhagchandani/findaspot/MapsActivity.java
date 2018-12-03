@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -42,6 +43,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         spinner.setVisibility(View.INVISIBLE);
         Intent ii=getIntent();
          uid=ii.getStringExtra("uid");
+         saveUidInExternalStorage(uid);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
         nav_name = (TextView)header.findViewById(R.id.nav_name);
@@ -381,6 +387,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+    }
+    public void saveUidInExternalStorage(String uid){
+        try {
+            File file = new File(Environment.getExternalStorageDirectory(), "uid.txt");
+            if(file.exists()){
+                file.delete();
+            }
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            writer.append(uid);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
