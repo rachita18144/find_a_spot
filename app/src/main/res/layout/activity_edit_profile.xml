@@ -155,7 +155,7 @@
             android:text="EDIT PROFILE"
             android:textColor="#FFF"
             android:textSize="30dp"
-            android:layout_marginTop="437dp"
+            android:layout_marginTop="380dp"
             />
     </RelativeLayout>
 
