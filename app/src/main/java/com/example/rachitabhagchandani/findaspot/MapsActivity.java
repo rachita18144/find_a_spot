@@ -66,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     boolean network_enabled,gps_enabled;
     PlaceAutocompleteFragment placeAutoComplete;
     LatLng current;
-    BitmapDescriptor icon;
+    BitmapDescriptor icon,icon1;
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase firebaseDatabase;
     ArrayList<ParkingLocations> list=new ArrayList<>();
@@ -192,6 +192,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("saumya","map ready"+googleMap);
         mMap = googleMap;
         icon = BitmapDescriptorFactory.fromResource(R.drawable.darkbluemarker);
+        icon1 = BitmapDescriptorFactory.fromResource(R.drawable.placeautocomplete);
         if (gps_enabled) {
             Log.d("saumya", "lm not null");
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -204,7 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("saumya", " gloc not null\n" + latitude + " " + longitude);
                      current = new LatLng(latitude, longitude);
                       Log.d("saumya","lat of curr is : "+latitude+" long current is : "+longitude);
-                    mMap.addMarker(new MarkerOptions().position(current).title("Marker in curr loc"));
+                    mMap.addMarker(new MarkerOptions().position(current).title("CURRENT LOCATION"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
                     mMap.setMyLocationEnabled(true);
                     mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -287,12 +288,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                Log.d("saumya","we have got the values");
                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(current).title("Marker in curr loc"));
+                mMap.addMarker(new MarkerOptions().position(current).title("CURRENT LOCATION"));
                 Log.d("saumya","current marker added after clearing..");
              lat = addresses.get(0).getLatitude();
               lng= addresses.get(0).getLongitude();
                 for ( Address a : addresses )
-                { mMap.addMarker( new MarkerOptions().icon(icon).position( new LatLng( a.getLatitude(), a.getLongitude() ) ) );}
+                { mMap.addMarker( new MarkerOptions().icon(icon1).position( new LatLng( a.getLatitude(), a.getLongitude() ) ).title(address) );}
                 Log.d("Latitude", ""+lat);
                 Log.d("Longitude", ""+lng);
                 placeDBMarkers();
@@ -311,7 +312,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for(ParkingLocations p:list)
             {
                 LatLng cc= new LatLng(Double.parseDouble(p.getLat_value()),Double.parseDouble(p.getLong_value()));
-                mMap.addMarker(new MarkerOptions().icon(icon).position(cc).title("Markers set"));
+                mMap.addMarker(new MarkerOptions().icon(icon).position(cc).title("parking location"));
             }
         }
 
