@@ -45,6 +45,11 @@ String charge;
                 Log.d("saumya","making payment");
                 Intent launchIntent = getPackageManager().getLaunchIntentForPackage("net.one97.paytm");
                  startActivity( launchIntent );
+                 a_time.setText("NA");
+                 d_time.setText("NA");
+                 payment.setText("NA");
+                 vno.setText("NA");
+                 make_payment.setEnabled(false);
             }
         });
         uid=getUserIdFromExternalStorage();

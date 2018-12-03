@@ -147,7 +147,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast.makeText(MapsActivity.this, "Wait till we fetch your location", Toast.LENGTH_LONG);
                     }
 
-                Log.d("lal", list.size() + "");
                   final Intent intent = new Intent(getApplicationContext(), DisplayParkingList.class);
                   Bundle bundle = new Bundle();
                   bundle.putSerializable("list_locations", list);
@@ -159,7 +158,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("saumya","size of list ------ "+list.size());
                     Log.d("saumya",p.getAddress());
                 }
-               intent.putExtra("pk1",list.get(0));
                 intent.putExtra("whole_list",list);
                startActivity(intent);
             }
