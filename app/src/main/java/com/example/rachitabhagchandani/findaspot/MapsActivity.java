@@ -64,9 +64,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     BitmapDescriptor icon;
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase firebaseDatabase;
-    ProgressBar spinner;
-    ArrayList<ParkingLocations> list;
+    ArrayList<ParkingLocations> list=new ArrayList<>();
     String uid;
+    ProgressBar spinner;
     TextView nav_name ;
     TextView nav_phone;
     @Override
@@ -76,13 +76,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         nearby= (Button) findViewById(R.id.nearby);
         mDrawerLayout = findViewById(R.id.drawer);
-        spinner = (ProgressBar)findViewById(R.id.progressbar);
-        spinner.setVisibility(View.VISIBLE);
+        spinner=(ProgressBar)findViewById(R.id.progressbar);
+        spinner.setVisibility(View.INVISIBLE);
         Intent ii=getIntent();
          uid=ii.getStringExtra("uid");
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
-
         nav_name = (TextView)header.findViewById(R.id.nav_name);
         nav_phone = (TextView)header.findViewById(R.id.nav_phone);
         getUserDataFirebase(uid);
@@ -138,6 +137,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view)
             {
+                    if (list.size() == 0) {
+                        Toast.makeText(MapsActivity.this, "Wait till we fetch your location", Toast.LENGTH_LONG);
+                    }
+
                 Log.d("lal", list.size() + "");
                   final Intent intent = new Intent(getApplicationContext(), DisplayParkingList.class);
                   Bundle bundle = new Bundle();
@@ -195,10 +198,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
                     mMap.setMyLocationEnabled(true);
                     mMap.getUiSettings().setZoomControlsEnabled(true);
-
+                    boolean flag=true;
                     mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                         @Override
                         public boolean onMyLocationButtonClick() {
+
+                                if (list.size() == 0) {
+                                    Toast.makeText(MapsActivity.this, "Wait till we fetch your location", Toast.LENGTH_LONG);
+                                }
+
                             Log.d("saumya", "clicked");
                             MarkerOptions mp = new MarkerOptions();
                             mp.position(new LatLng(location.getLatitude(), location.getLongitude()));
@@ -218,8 +226,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("saumya", "permission not there");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION);
             }
-
         }
+
     }
 
     @Override
@@ -287,7 +295,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     public void placeDBMarkers()
     {
-
         if(list.size()!=0)
         {
             Log.d("saumya","getting list items");
@@ -354,9 +361,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
              Log.d("saumya",databaseError.getDetails());
             }
         });
-       spinner.setVisibility(View.INVISIBLE);
-        spinner.setVisibility(View.GONE);
-        Log.d("saumya","-------------------");
+
     }
     public void getUserDataFirebase(String uid)
     {
