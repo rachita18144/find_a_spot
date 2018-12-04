@@ -71,6 +71,12 @@ public class DisplayParkingList extends AppCompatActivity{
                     // intent.putExtra("uid",uid);
                     startActivity(intent);
                 }
+                if(menuItem.getItemId()==R.id.current)
+                {
+                    Intent intent = new Intent(getApplicationContext(),CurrentStatus.class);
+                    // intent.putExtra("uid",uid);
+                    startActivity(intent);
+                }
                 return true;
             }
         });

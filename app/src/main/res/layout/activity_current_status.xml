@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CurrentStatus">
-
-</android.support.constraint.ConstraintLayout>
+    android:orientation="vertical"
+    tools:context=".EditProfile"
+    android:layout_margin="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:text="VEHICLE NO :"
+            android:layout_marginLeft="30dp"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:id="@+id/vno"
+            android:text="NA"
+            android:layout_marginLeft="120dp"
+            android:textSize="20dp"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="Arrival Time :"
+                android:layout_marginLeft="30dp"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="NA"
+                android:id="@+id/a_time"
+                android:layout_marginLeft="120dp"
+                android:textSize="20dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="Expected Departure Time :"
+                android:layout_marginLeft="30dp"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:text="NA"
+                android:id="@+id/d_time"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="PAYMENT :"
+            android:textSize="25dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="60dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="NA"
+            android:id="@+id/payment"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="40dp"
+            android:textSize="25dp"/>
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/make_payment"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="60dp"
+        android:background="@color/yellow"
+        android:textColor="#fff"
+        android:text="MAKE PAYMENT"
+        android:textSize="30dp"
+        android:textAlignment="center"/>
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -42,6 +43,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     boolean network_enabled,gps_enabled;
     PlaceAutocompleteFragment placeAutoComplete;
     LatLng current;
-    BitmapDescriptor icon;
+    BitmapDescriptor icon,icon1;
     private DrawerLayout mDrawerLayout;
     private FirebaseDatabase firebaseDatabase;
     ArrayList<ParkingLocations> list=new ArrayList<>();
@@ -80,6 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         spinner.setVisibility(View.INVISIBLE);
         Intent ii=getIntent();
          uid=ii.getStringExtra("uid");
+         saveUidInExternalStorage(uid);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
         nav_name = (TextView)header.findViewById(R.id.nav_name);
@@ -109,6 +115,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {
                             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                            // intent.putExtra("uid",uid);
+                            startActivity(intent);
+                        }
+                        if(menuItem.getItemId()==R.id.current)
+                        {
+                            Intent intent = new Intent(getApplicationContext(),CurrentStatus.class);
+                            // intent.putExtra("uid",uid);
                             startActivity(intent);
                         }
                         return true;
@@ -141,7 +153,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast.makeText(MapsActivity.this, "Wait till we fetch your location", Toast.LENGTH_LONG);
                     }
 
-                Log.d("lal", list.size() + "");
                   final Intent intent = new Intent(getApplicationContext(), DisplayParkingList.class);
                   Bundle bundle = new Bundle();
                   bundle.putSerializable("list_locations", list);
@@ -153,7 +164,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("saumya","size of list ------ "+list.size());
                     Log.d("saumya",p.getAddress());
                 }
-               intent.putExtra("pk1",list.get(0));
                 intent.putExtra("whole_list",list);
                startActivity(intent);
             }
@@ -182,6 +192,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("saumya","map ready"+googleMap);
         mMap = googleMap;
         icon = BitmapDescriptorFactory.fromResource(R.drawable.darkbluemarker);
+        icon1 = BitmapDescriptorFactory.fromResource(R.drawable.placeautocomplete);
         if (gps_enabled) {
             Log.d("saumya", "lm not null");
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -194,7 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.d("saumya", " gloc not null\n" + latitude + " " + longitude);
                      current = new LatLng(latitude, longitude);
                       Log.d("saumya","lat of curr is : "+latitude+" long current is : "+longitude);
-                    mMap.addMarker(new MarkerOptions().position(current).title("Marker in curr loc"));
+                    mMap.addMarker(new MarkerOptions().position(current).title("CURRENT LOCATION"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
                     mMap.setMyLocationEnabled(true);
                     mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -277,12 +288,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                Log.d("saumya","we have got the values");
                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(current).title("Marker in curr loc"));
+                mMap.addMarker(new MarkerOptions().position(current).title("CURRENT LOCATION"));
                 Log.d("saumya","current marker added after clearing..");
              lat = addresses.get(0).getLatitude();
               lng= addresses.get(0).getLongitude();
                 for ( Address a : addresses )
-                { mMap.addMarker( new MarkerOptions().icon(icon).position( new LatLng( a.getLatitude(), a.getLongitude() ) ) );}
+                { mMap.addMarker( new MarkerOptions().icon(icon1).position( new LatLng( a.getLatitude(), a.getLongitude() ) ).title(address) );}
                 Log.d("Latitude", ""+lat);
                 Log.d("Longitude", ""+lng);
                 placeDBMarkers();
@@ -301,7 +312,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for(ParkingLocations p:list)
             {
                 LatLng cc= new LatLng(Double.parseDouble(p.getLat_value()),Double.parseDouble(p.getLong_value()));
-                mMap.addMarker(new MarkerOptions().icon(icon).position(cc).title("Markers set"));
+                mMap.addMarker(new MarkerOptions().icon(icon).position(cc).title("parking location"));
             }
         }
 
@@ -380,6 +391,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+    }
+    public void saveUidInExternalStorage(String uid){
+        try {
+            File file = new File(Environment.getExternalStorageDirectory(), "uid.txt");
+            if(file.exists()){
+                file.delete();
+            }
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            writer.append(uid);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
