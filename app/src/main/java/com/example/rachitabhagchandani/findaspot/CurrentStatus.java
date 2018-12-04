@@ -50,6 +50,7 @@ String charge;
                  payment.setText("NA");
                  vno.setText("NA");
                  make_payment.setEnabled(false);
+                  setStatusToPaid();
             }
         });
         uid=getUserIdFromExternalStorage();
@@ -75,6 +76,7 @@ String charge;
                         {
                             if(ds1.getValue().equals("approved"))
                             {
+                                current_booking=ds.getKey().toString();
                                 Log.d("saumya","this entry is approved"+ds.getKey());
                                 vno.setText(ds.child("vehicle_number").getValue().toString());
                                 a_time.setText(ds.child("arrival_time").getValue().toString());
@@ -127,5 +129,9 @@ String charge;
         }
         return text.toString();
 
+    }
+    public void setStatusToPaid()
+    {
+        FirebaseDatabase.getInstance().getReference("booking_details").child(uid).child(current_booking).child("status").setValue("paid");
     }
 }

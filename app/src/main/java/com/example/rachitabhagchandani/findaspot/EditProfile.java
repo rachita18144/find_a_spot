@@ -25,10 +25,10 @@ import java.util.Iterator;
 public class EditProfile extends AppCompatActivity {
     String uid;
     User u2;
-    EditText name, email, phone, password, vehicle_no;
+    EditText name, email, phone, vehicle_no;
     TextView topname;
     Button editButton;
-
+    String vstring="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +37,8 @@ public class EditProfile extends AppCompatActivity {
         topname = (TextView) findViewById(R.id.nametop);
         phone = (EditText) findViewById(R.id.contact);
         editButton = (Button) findViewById(R.id.editprofilebutton);
-        password = (EditText) findViewById(R.id.pass);
         vehicle_no = (EditText) findViewById(R.id.vehiclelist);
+        vehicle_no.setEnabled(false);
         Intent i = getIntent();
         uid = i.getStringExtra("uid");
         getUserDetailsFirebase();
@@ -46,10 +46,9 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String uname = name.getText().toString();
-                String pwd = password.getText().toString();
                 String contact = phone.getText().toString();
                 String vehicle = vehicle_no.getText().toString();
-                saveToDB(uname, pwd, contact, vehicle,contact);
+                saveToDB(uname, contact, vehicle,contact);
 
             }
         });
@@ -85,9 +84,37 @@ public class EditProfile extends AppCompatActivity {
 
             }
         });
+        Log.d("saumya","-------------");
+        FirebaseDatabase.getInstance().getReference("booking_details").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                vstring="";
+             for(DataSnapshot ds:dataSnapshot.getChildren())
+             {
+                 for (DataSnapshot ds1:ds.getChildren())
+                 {
+
+                     Log.d("saumya","looping over:"+ds.getKey());
+                     if(ds1.getKey().equals("vehicle_number"))
+                     {
+                         Log.d("saumya","hip hip"+ds1.getValue());
+                         vstring+=ds1.getValue()+",";
+                     }
+                 }
+
+             }
+             Log.d("saumya","list is :"+vstring);
+             vehicle_no.setText(vstring);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    public void saveToDB(String name, String email, String pass, String vehicle_no,String contact) {
+    public void saveToDB(String name, String email, String vehicle_no,String contact) {
      FirebaseDatabase.getInstance().getReference("users").child(uid).child("name").setValue(name);
      FirebaseDatabase.getInstance().getReference("users").child(uid).child("phone").setValue(contact);
      topname.setText(name);
