@@ -85,7 +85,10 @@ String charge;
                             }
                             else if(ds1.getValue().equals("finished"))
                             {
-                                Log.d("saumya","this entry is approved"+ds.getKey());
+                                current_booking=ds.getKey().toString();
+                                vno.setText(ds.child("vehicle_number").getValue().toString());
+                                a_time.setText(ds.child("arrival_time").getValue().toString());
+                                d_time.setText(ds.child("leaving_time").getValue().toString());
                                 int start=Integer.parseInt(a_time.getText().toString().split(":")[0]);
                                 int end=Integer.parseInt(d_time.getText().toString().split(":")[0]);
                                 float amount=Math.abs(40*(end-start));
@@ -94,7 +97,7 @@ String charge;
                             }
                             else
                             {
-                               /* Log.d("saumya","payed status");*/
+                               /* Log.d("saumya","paid status");*/
                             }
                         }
                     }
