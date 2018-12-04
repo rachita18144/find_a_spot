@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
@@ -30,9 +31,11 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -49,12 +52,18 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ParkingSlotInformation"></activity>
-        <activity android:name=".UserDetails"></activity>
-        <activity android:name=".DisplayParkingList"></activity>
-        <activity android:name=".PastBookingActivity"></activity>
-        <activity android:name=".EditProfile" />
-        <activity android:name=".CurrentStatus"></activity>
+        <activity android:name=".ParkingSlotInformation"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".UserDetails"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".DisplayParkingList"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".PastBookingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".EditProfile"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CurrentStatus"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
