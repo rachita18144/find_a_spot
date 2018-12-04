@@ -72,7 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.l_name.setText(mDataset.get(position).address);
         holder.l_price.setText("Rs." + String.valueOf(mDataset.get(position).charges_car));
         holder.l_capacity.setText("Capacity :" + String.valueOf(mDataset.get(position).capacity_car));
-        holder.l_address.setText(String.valueOf(mDataset.get(position).address));
+        holder.l_address.setText(String.valueOf(mDataset.get(position).city));
     }
 
     @Override

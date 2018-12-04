@@ -25,8 +25,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ParkingSlotInformation extends AppCompatActivity {
-        TextView l_name, l_price, l_capacity , l_address;
+        TextView l_name, l_price, l_capacity , available_car,l_address , getAvailable_two_wheeler;
         String name;
+        String locationid;
+        String availableCar;
+        String availabletwo;
         Button proceed;
     TextView nav_name ;
     TextView nav_phone;
@@ -77,7 +80,10 @@ public class ParkingSlotInformation extends AppCompatActivity {
                 l_price = (TextView) findViewById(R.id.location_price);
                 l_capacity = (TextView) findViewById(R.id.capacity);
                 l_address = (TextView) findViewById(R.id.location_address);
+                available_car = (TextView) findViewById(R.id.available_car);
+                getAvailable_two_wheeler = (TextView) findViewById(R.id.available_two_wheeler);
                 name = (String) bundle.get("name");
+                locationid = (String) bundle.get("location_id");
                 l_name.setText(name);
                 String price = (String) bundle.get("price");
                 l_price.setText(price);
@@ -85,6 +91,10 @@ public class ParkingSlotInformation extends AppCompatActivity {
                 l_capacity.setText(capacity);
                 String address = (String) bundle.get("address");
                 l_address.setText(address);
+                availableCar = (String) bundle.get("available_car");
+                available_car.setText("Available Car Parking : " + availableCar);
+                availabletwo = (String) bundle.get("available_two_wheeler");
+                getAvailable_two_wheeler.setText("Available Two Wheeler Parking : " + availabletwo);
                 proceed = (Button)findViewById(R.id.proceed);
             }
 
@@ -92,6 +102,9 @@ public class ParkingSlotInformation extends AppCompatActivity {
                 public void onClick(View v){
                     Intent intent = new Intent(getApplicationContext(), UserDetails.class);
                     intent.putExtra("location_name",name);
+                    intent.putExtra("location_id",locationid);
+                    intent.putExtra("available_car", availableCar);
+                    intent.putExtra("available_two", availabletwo);
                     startActivity(intent);
                 }
             });

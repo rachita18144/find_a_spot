@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -44,8 +45,10 @@ import java.util.Locale;
 public class UserDetails extends AppCompatActivity {
     TextView selectDate, selectedDate, selectTime, selectedTime, selectedLeavngTime, selectleavingTime;
     EditText vehicleNumber;
-    TextView nav_name ;
+    TextView nav_name;
     TextView nav_phone;
+    int availableCar;
+    int availableTwo;
     private DrawerLayout mDrawerLayout;
     String uid;
     //create a new object of type past bookings and save the object in db
@@ -54,38 +57,34 @@ public class UserDetails extends AppCompatActivity {
 
     final Calendar myCalendar = Calendar.getInstance();
     Button bookingConfirmation;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_details);
-        uid=getUserIdFromExternalStorage();
+        uid = getUserIdFromExternalStorage();
         NavigationView navigationView = findViewById(R.id.nav_view);
-        View header=navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
         mDrawerLayout = findViewById(R.id.drawer);
-        nav_name = (TextView)header.findViewById(R.id.nav_name);
-        nav_phone = (TextView)header.findViewById(R.id.nav_phone);
+        nav_name = (TextView) header.findViewById(R.id.nav_name);
+        nav_phone = (TextView) header.findViewById(R.id.nav_phone);
         getUserDataFirebase(uid);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem)
-            {
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
-                if(menuItem.getItemId()==R.id.past)
-                {
-                    Intent intent = new Intent(getApplicationContext(),PastBookingActivity.class);
+                if (menuItem.getItemId() == R.id.past) {
+                    Intent intent = new Intent(getApplicationContext(), PastBookingActivity.class);
                     startActivity(intent);
                 }
 
-                if(menuItem.getItemId()==R.id.edit)
-                {
-                    Intent intent = new Intent(getApplicationContext(),EditProfile.class);
-                    intent.putExtra("uid",uid);
+                if (menuItem.getItemId() == R.id.edit) {
+                    Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                    intent.putExtra("uid", uid);
                     startActivity(intent);
                 }
-                if(menuItem.getItemId()==R.id.logout)
-                {
-                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                if (menuItem.getItemId() == R.id.logout) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     // intent.putExtra("uid",uid);
                     startActivity(intent);
                 }
@@ -95,32 +94,36 @@ public class UserDetails extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         booking.user_id = getUserIdFromExternalStorage();
-       // Log.d("USER_ID",booking.user_id);
+        // Log.d("USER_ID",booking.user_id);
         TextView l_name;
         if (bundle != null) {
             l_name = (TextView) findViewById(R.id.booking_location);
             String name = (String) bundle.get("location_name");
             l_name.setText(name);
+            booking.locationid = (String) bundle.get("location_id");
+            booking.location = name;
+            availableCar = Integer.parseInt((String) bundle.get("available_car"));
+            availableTwo = Integer.parseInt((String) bundle.get("available_two"));
         }
 
         //------------------Arrival and leaving time
         selectTime = (TextView) findViewById(R.id.select_time);
-         selectTime .setOnClickListener(new View.OnClickListener() {
+        selectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTimePicker();
             }
         });
 
-         selectleavingTime= (TextView) findViewById(R.id.select_leaving_time);
-         selectleavingTime.setOnClickListener(new View.OnClickListener() {
+        selectleavingTime = (TextView) findViewById(R.id.select_leaving_time);
+        selectleavingTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTimePickerForLeavingTime();
             }
         });
 
-         //-----------------select date for booking slot------------------------------
+        //-----------------select date for booking slot------------------------------
         selectDate = (TextView) findViewById(R.id.select_date);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -144,8 +147,8 @@ public class UserDetails extends AppCompatActivity {
 
         //-----------------confirm booking parking slot for user
 
-          bookingConfirmation = (Button) findViewById(R.id.booking_confirmation);
-          bookingConfirmation.setOnClickListener(new View.OnClickListener() {
+        bookingConfirmation = (Button) findViewById(R.id.booking_confirmation);
+        bookingConfirmation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bookParkingSlot();
@@ -154,7 +157,7 @@ public class UserDetails extends AppCompatActivity {
 
     }
 
-    public void showTimePicker(){
+    public void showTimePicker() {
         selectedTime = (TextView) findViewById(R.id.display_time);
         final Calendar c = Calendar.getInstance();
         final int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -165,7 +168,7 @@ public class UserDetails extends AppCompatActivity {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       selectedTime.setText(hourOfDay + ":" + minute);
+                        selectedTime.setText(hourOfDay + ":" + minute);
                         //get time from hour and minute
                         Time arrivalTime = getTimeFromHourAndMinute(hourOfDay, minute);
                         booking.arrival_time = arrivalTime.toString();
@@ -174,8 +177,8 @@ public class UserDetails extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-      public void showTimePickerForLeavingTime(){
-       selectedLeavngTime = (TextView) findViewById(R.id.display_leaving_time);
+    public void showTimePickerForLeavingTime() {
+        selectedLeavngTime = (TextView) findViewById(R.id.display_leaving_time);
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
@@ -185,7 +188,7 @@ public class UserDetails extends AppCompatActivity {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                       selectedLeavngTime.setText(hourOfDay + ":" + minute);
+                        selectedLeavngTime.setText(hourOfDay + ":" + minute);
                         Time leavingTime = getTimeFromHourAndMinute(hourOfDay, minute);
                         booking.leaving_time = leavingTime.toString();
                     }
@@ -194,13 +197,13 @@ public class UserDetails extends AppCompatActivity {
     }
 
     //***************UTILITY FUNCTIONS****************
-   public Time getTimeFromHourAndMinute(int hourOfDay, int minute){
+    public Time getTimeFromHourAndMinute(int hourOfDay, int minute) {
         String time = hourOfDay + ":" + minute + ":" + "00";
         Time javatime = Time.valueOf(time);
         return javatime;
-   }
+    }
 
-    public void updateLabel(){
+    public void updateLabel() {
         selectedDate = (TextView) findViewById(R.id.display_date);
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -208,25 +211,87 @@ public class UserDetails extends AppCompatActivity {
         booking.booking_date = sdf.format(myCalendar.getTime());
     }
 
-    public void bookParkingSlot(){
+    public void bookParkingSlot() {
         vehicleNumber = (EditText) findViewById(R.id.vehcile_number);
         booking.vehicle_number = vehicleNumber.getText().toString();
+        booking.status = "booking_done";
+        //find vehicle type from radio button
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_button);
+        if (radioGroup.getCheckedRadioButtonId() == findViewById(R.id.radio_car).getId()) {
+            booking.vehicle_type = "car";
+            availableCar = availableCar - 1;
+            updateAvailable("car", availableCar);
+        }
+
+        if (radioGroup.getCheckedRadioButtonId() == findViewById(R.id.radio_two_wheeler).getId()) {
+            booking.vehicle_type = "two_wheeler";
+            availableTwo = availableTwo - 1;
+            updateAvailable("two", availableTwo);
+        }
+
+        if (booking.vehicle_number.equals("") || booking.arrival_time == null || booking.leaving_time == null || booking.booking_date == null || booking.vehicle_type == null) {
+            Toast.makeText(getApplicationContext(), "Please enter all details correctly", Toast.LENGTH_LONG).show();
+            return;
+        }
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("booking_details");
         DatabaseReference postsRef = ref.child(booking.user_id);
         DatabaseReference newPostRef = postsRef.push();
-        newPostRef.setValue(booking).addOnCompleteListener(new OnCompleteListener<Void>(){
-                                       public void onComplete(@NonNull Task<Void> task){
-                                           if(task.isSuccessful()){
-                                               Toast.makeText(UserDetails.this, "Booking Successfull",
-                                                       Toast.LENGTH_SHORT).show();
-                                           }else{
-                                               Toast.makeText(UserDetails.this, "Booking Failed",
-                                                       Toast.LENGTH_SHORT).show();
-                                           }
-                                       }
-                                    });
-   }
+        newPostRef.setValue(booking).addOnCompleteListener(new OnCompleteListener<Void>() {
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(UserDetails.this, "Booking Successfull",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(UserDetails.this, "Booking Failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void updateAvailable(String type, final int available) {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("parking_locations");
+        if (type.equals("car")) {
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        for (DataSnapshot dsnew : ds.getChildren()) {
+                            if (dsnew.getKey().equals("available_car")) {
+                                dsnew.getRef().setValue(available);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d("error", databaseError.getDetails());
+                }
+            });
+        }
+        if (type.equals("two")) {
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        for (DataSnapshot dsnew : ds.getChildren()) {
+                            if (dsnew.getKey().equals("available_two_wheeler")) {
+                                dsnew.getRef().setValue(available);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d("error", databaseError.getDetails());
+                }
+            });
+        }
+    }
 
     public void getUserDataFirebase(String uid) {
         FirebaseDatabase.getInstance().getReference("users").child(uid).addValueEventListener(new ValueEventListener() {
@@ -242,6 +307,7 @@ public class UserDetails extends AppCompatActivity {
             }
         });
     }
+
     public String getUserIdFromExternalStorage() {
         String line = "";
         final File file = new File(Environment.getExternalStorageDirectory()
@@ -257,8 +323,7 @@ public class UserDetails extends AppCompatActivity {
                 text.append(line);
             }
             br.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return text.toString();

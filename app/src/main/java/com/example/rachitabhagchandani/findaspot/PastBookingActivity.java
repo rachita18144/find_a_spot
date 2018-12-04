@@ -84,7 +84,7 @@ public class PastBookingActivity extends AppCompatActivity {
                             pb.setLeaving_time(dsnew.child("leaving_time").getValue().toString());
                             pb.setVehicle_number(dsnew.child("vehicle_number").getValue().toString());
                             pb.setUser_id(dsnew.child("user_id").getValue().toString());
-                            //pb.setLocation(ds.child("location").getValue().toString());
+                            pb.setLocation(dsnew.child("location").getValue().toString());
                             pb.setAmount_paid(Float.parseFloat(dsnew.child("amount_paid").getValue().toString()));
                             pastBookings.add(pb);
                         }

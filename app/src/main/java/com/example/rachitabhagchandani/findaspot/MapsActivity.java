@@ -352,6 +352,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     pl.setCharges_car(ds.child("charges_car").getValue().toString());
                     pl.setCharges_two_wheeler(ds.child("charges_two_wheeler").getValue().toString());
                      pl.setCity(ds.child("city").getValue().toString());
+                    pl.setAvailable_car(ds.child("available_car").getValue().toString());
+                    pl.setAvailable_two_wheeler(ds.child("available_two_wheeler").getValue().toString());
+                    pl.setLocationid(ds.child("locationid").getValue().toString());
                     list.add(pl);
                 }
             }

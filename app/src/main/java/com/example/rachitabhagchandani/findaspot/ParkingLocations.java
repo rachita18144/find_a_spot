@@ -16,9 +16,36 @@ public class ParkingLocations implements Serializable
         String city;
         String lat_value;
         String long_value;
+        String available_car;
+        String available_two_wheeler;
 
+    public String getLocationid() {
+        return locationid;
+    }
 
-        public ParkingLocations()
+    public void setLocationid(String locationid) {
+        this.locationid = locationid;
+    }
+
+    String locationid;
+
+    public String getAvailable_car() {
+        return available_car;
+    }
+
+    public void setAvailable_car(String available_car) {
+        this.available_car = available_car;
+    }
+
+    public String getAvailable_two_wheeler() {
+        return available_two_wheeler;
+    }
+
+    public void setAvailable_two_wheeler(String available_two_wheeler) {
+        this.available_two_wheeler = available_two_wheeler;
+    }
+
+    public ParkingLocations()
         { }
 
     public String getAddress() {

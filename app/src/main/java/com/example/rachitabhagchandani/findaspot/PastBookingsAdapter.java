@@ -55,7 +55,7 @@ public class PastBookingsAdapter extends RecyclerView.Adapter<PastBookingsAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d("abcd",mDataset.get(position).getVehicle_number());
         holder.vehicle_id.setText(mDataset.get(position).getVehicle_number());
-        //holder.location.setText(mDataset.get(position).getLocation());
+        holder.location.setText(mDataset.get(position).getLocation());
 
         //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         //String datestr = formatter.format(mDataset.get(position).getBooking_date());

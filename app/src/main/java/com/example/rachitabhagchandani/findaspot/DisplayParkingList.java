@@ -98,6 +98,10 @@ public class DisplayParkingList extends AppCompatActivity{
         intent.putExtra("price", "Rs. " + selectedLocation.getCharges_car());
         intent.putExtra("capacity", "Capacity : "+selectedLocation.getCapacity_car());
         intent.putExtra("address", selectedLocation.getAddress());
+        intent.putExtra("available_car", selectedLocation.getAvailable_car());
+        intent.putExtra("available_two_wheeler", selectedLocation.getAvailable_two_wheeler());
+        intent.putExtra("location_id", selectedLocation.getLocationid());
+        intent.putExtra("loca", selectedLocation.getAvailable_two_wheeler());
         startActivity(intent);
     }
 
@@ -134,6 +138,7 @@ public class DisplayParkingList extends AppCompatActivity{
            e.printStackTrace();
        }
    }
+
     public String getUserIdFromExternalStorage() {
         String line = "";
         final File file = new File(Environment.getExternalStorageDirectory()
@@ -156,5 +161,4 @@ public class DisplayParkingList extends AppCompatActivity{
         return text.toString();
 
     }
-
 }

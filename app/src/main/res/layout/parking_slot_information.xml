@@ -99,10 +99,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/available_car"
             android:text="Available car parkings : 20/100 "/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/available_two_wheeler"
             android:text="Available two-wheeler parkings : 40/100 "/>
 
     </LinearLayout>
